@@ -80,6 +80,12 @@ Run with Procmon capture enabled:
 powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationMinutes 10 -EnableProcmon
 ```
 
+For long captures, create a Procmon config first with filters and **Filter -> Drop Filtered Events** enabled, then run:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationMinutes 10 -EnableProcmon -ProcmonConfigPath C:\Temp\procmon-network-filter.pmc
+```
+
 If Procmon is somewhere else:
 
 ```powershell
@@ -94,6 +100,25 @@ outbound-web-procmon-YYYYMMDD-HHMMSS.csv
 ```
 
 For PID 4/System cases, open the `.pml` in Procmon GUI and inspect the event Stack. Driver names such as `csagent.sys`, backup drivers, VPN drivers, or AV filter drivers are the key clue.
+
+Recommended Procmon filter for small files:
+
+```text
+Path contains 35.162.239.174 Include
+Path contains 169.254.169.254 Include
+```
+
+Then enable:
+
+```text
+Filter -> Drop Filtered Events
+```
+
+Save config:
+
+```text
+File -> Save Configuration... -> C:\Temp\procmon-network-filter.pmc
+```
 
 By default, the script writes logs to files only and does not print every event to the console.
 

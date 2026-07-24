@@ -19,7 +19,8 @@ param(
   [switch]$DisableAuditOnExit,
   [switch]$Console,
   [switch]$EnableProcmon,
-  [string]$ProcmonPath = "C:\Tools\Procmon64.exe"
+  [string]$ProcmonPath = "C:\Tools\Procmon64.exe",
+  [string]$ProcmonConfigPath = ""
 )
 
 $ErrorActionPreference = "Continue"
@@ -217,7 +218,17 @@ function Start-ProcmonCapture {
   }
 
   Write-Log "Starting Procmon capture: $ProcmonPml"
-  Start-Process -FilePath $ProcmonPath -ArgumentList @("/AcceptEula", "/Quiet", "/Minimized", "/BackingFile", $ProcmonPml) -WindowStyle Minimized | Out-Null
+  $procmonArgs = @("/AcceptEula", "/Quiet", "/Minimized")
+  if (-not [string]::IsNullOrWhiteSpace($ProcmonConfigPath)) {
+    if (Test-Path $ProcmonConfigPath) {
+      Write-Log "Loading Procmon config: $ProcmonConfigPath"
+      $procmonArgs += @("/LoadConfig", $ProcmonConfigPath)
+    } else {
+      Write-Log "[WARN] Procmon config requested but not found: $ProcmonConfigPath"
+    }
+  }
+  $procmonArgs += @("/BackingFile", $ProcmonPml)
+  Start-Process -FilePath $ProcmonPath -ArgumentList $procmonArgs -WindowStyle Minimized | Out-Null
   Start-Sleep -Seconds 3
 }
 
