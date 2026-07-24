@@ -58,11 +58,19 @@ Run for 2 hours:
 powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationHours 2
 ```
 
+Run for 10 minutes as a quick test:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationMinutes 10
+```
+
 Run and disable audit automatically when the script exits:
 
 ```powershell
 powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationHours 24 -DisableAuditOnExit
 ```
+
+If the monitor stops early, open the latest `.log` file and look for `[ERROR]` or `[WARN]` lines. Newer versions log the crash reason instead of failing silently.
 
 Stop manually:
 

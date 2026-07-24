@@ -13,12 +13,13 @@
 
 param(
   [int]$DurationHours = 24,
+  [int]$DurationMinutes = 0,
   [int]$IntervalSeconds = 1,
   [string]$OutDir = "C:\Temp\OutboundWebAudit",
   [switch]$DisableAuditOnExit
 )
 
-$ErrorActionPreference = "SilentlyContinue"
+$ErrorActionPreference = "Continue"
 
 New-Item -ItemType Directory -Force $OutDir | Out-Null
 
@@ -208,7 +209,11 @@ Enable-FirewallLogging
 $seenLive = @{}
 $seenAudit = @{}
 $start = Get-Date
-$end = $start.AddHours($DurationHours)
+if ($DurationMinutes -gt 0) {
+  $end = $start.AddMinutes($DurationMinutes)
+} else {
+  $end = $start.AddHours($DurationHours)
+}
 $lastAuditCheck = $start.AddMinutes(-10)
 
 Write-Log "Monitoring outbound TCP 80/443 until $end"
@@ -218,12 +223,17 @@ try {
   while ((Get-Date) -lt $end) {
     $now = Get-Date
 
-    $connections = Get-NetTCPConnection -ErrorAction SilentlyContinue |
-      Where-Object {
-        $_.RemotePort -in 80,443 -and
-        $_.RemoteAddress -notin @("127.0.0.1", "::1", "0.0.0.0", "::") -and
-        $_.State -in @("SynSent", "Established", "CloseWait", "FinWait1", "FinWait2")
-      }
+    try {
+      $connections = Get-NetTCPConnection -ErrorAction Stop |
+        Where-Object {
+          $_.RemotePort -in 80,443 -and
+          $_.RemoteAddress -notin @("127.0.0.1", "::1", "0.0.0.0", "::") -and
+          $_.State -in @("SynSent", "Established", "CloseWait", "FinWait1", "FinWait2")
+        }
+    } catch {
+      Write-Log "[WARN] Get-NetTCPConnection failed: $($_.Exception.Message)"
+      $connections = @()
+    }
 
     foreach ($connection in $connections) {
       $liveKey = "$($connection.OwningProcess)|$($connection.LocalAddress)|$($connection.LocalPort)|$($connection.RemoteAddress)|$($connection.RemotePort)|$($connection.State)"
@@ -256,10 +266,17 @@ try {
       }
     }
 
-    $events = Get-WinEvent -FilterHashtable @{
-      LogName = "Security"
-      Id = 5156,5157
-      StartTime = $lastAuditCheck
+    try {
+      $events = Get-WinEvent -FilterHashtable @{
+        LogName = "Security"
+        Id = 5156,5157
+        StartTime = $lastAuditCheck
+      } -ErrorAction Stop
+    } catch [Microsoft.PowerShell.Commands.NoMatchingEventsFoundException] {
+      $events = @()
+    } catch {
+      Write-Log "[WARN] Get-WinEvent failed: $($_.Exception.Message)"
+      $events = @()
     }
 
     foreach ($event in $events) {
@@ -300,6 +317,10 @@ try {
     $lastAuditCheck = $now.AddSeconds(-5)
     Start-Sleep -Seconds $IntervalSeconds
   }
+}
+catch {
+  Write-Log "[ERROR] Monitor crashed: $($_.Exception.Message)"
+  Write-Log "[ERROR] At: $($_.InvocationInfo.PositionMessage)"
 }
 finally {
   if ($DisableAuditOnExit) {
