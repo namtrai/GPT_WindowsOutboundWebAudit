@@ -16,7 +16,8 @@ param(
   [int]$DurationMinutes = 0,
   [int]$IntervalSeconds = 1,
   [string]$OutDir = "C:\Temp\OutboundWebAudit",
-  [switch]$DisableAuditOnExit
+  [switch]$DisableAuditOnExit,
+  [switch]$Quiet
 )
 
 $ErrorActionPreference = "Continue"
@@ -31,7 +32,11 @@ $AuditCsv = Join-Path $OutDir "outbound-web-security-audit-$Stamp.csv"
 function Write-Log {
   param([string]$Message)
   $line = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $Message"
-  $line | Tee-Object -FilePath $ReadableLog -Append
+  if ($Quiet) {
+    Add-Content -Path $ReadableLog -Value $line
+  } else {
+    $line | Tee-Object -FilePath $ReadableLog -Append
+  }
 }
 
 function Convert-DevicePathToDrivePath {
@@ -57,10 +62,10 @@ function Convert-DevicePathToDrivePath {
 }
 
 function Get-ServicesForPid {
-  param([int]$Pid)
+  param([int]$ServiceProcessId)
 
   return (Get-CimInstance Win32_Service |
-    Where-Object { $_.ProcessId -eq $Pid } |
+    Where-Object { $_.ProcessId -eq $ServiceProcessId } |
     ForEach-Object { "$($_.Name)[$($_.DisplayName)]" }) -join "; "
 }
 
@@ -108,7 +113,7 @@ function Get-ProcessInfoSafe {
     }
   }
 
-  $services = Get-ServicesForPid -Pid $ProcessId
+  $services = Get-ServicesForPid -ServiceProcessId $ProcessId
 
   $sigStatus = ""
   $signer = ""
