@@ -17,7 +17,9 @@ param(
   [int]$IntervalSeconds = 1,
   [string]$OutDir = "C:\Temp\OutboundWebAudit",
   [switch]$DisableAuditOnExit,
-  [switch]$Console
+  [switch]$Console,
+  [switch]$EnableProcmon,
+  [string]$ProcmonPath = "C:\Tools\Procmon64.exe"
 )
 
 $ErrorActionPreference = "Continue"
@@ -28,6 +30,8 @@ $Stamp = Get-Date -Format "yyyyMMdd-HHmmss"
 $ReadableLog = Join-Path $OutDir "outbound-web-$Stamp.log"
 $LiveCsv = Join-Path $OutDir "outbound-web-live-$Stamp.csv"
 $AuditCsv = Join-Path $OutDir "outbound-web-security-audit-$Stamp.csv"
+$ProcmonPml = Join-Path $OutDir "outbound-web-procmon-$Stamp.pml"
+$ProcmonCsv = Join-Path $OutDir "outbound-web-procmon-$Stamp.csv"
 
 function Write-Log {
   param([string]$Message)
@@ -201,6 +205,49 @@ function Enable-FirewallLogging {
   cmd /c 'netsh advfirewall set allprofiles logging allowedconnections enable' | Out-Null
 }
 
+function Start-ProcmonCapture {
+  if (-not $EnableProcmon) {
+    return
+  }
+
+  if (-not (Test-Path $ProcmonPath)) {
+    Write-Log "[WARN] Procmon requested but not found: $ProcmonPath"
+    Write-Log "[WARN] Download Procmon from Microsoft Sysinternals and place Procmon64.exe there, or pass -ProcmonPath."
+    return
+  }
+
+  Write-Log "Starting Procmon capture: $ProcmonPml"
+  Start-Process -FilePath $ProcmonPath -ArgumentList @("/AcceptEula", "/Quiet", "/Minimized", "/BackingFile", $ProcmonPml) -WindowStyle Minimized | Out-Null
+  Start-Sleep -Seconds 3
+}
+
+function Stop-ProcmonCapture {
+  if (-not $EnableProcmon) {
+    return
+  }
+
+  if (-not (Test-Path $ProcmonPath)) {
+    return
+  }
+
+  Write-Log "Stopping Procmon capture"
+  Start-Process -FilePath $ProcmonPath -ArgumentList @("/Terminate") -Wait -WindowStyle Hidden | Out-Null
+  Start-Sleep -Seconds 3
+
+  if (Test-Path $ProcmonPml) {
+    Write-Log "Procmon PML: $ProcmonPml"
+    Write-Log "Converting Procmon PML to CSV: $ProcmonCsv"
+    Start-Process -FilePath $ProcmonPath -ArgumentList @("/AcceptEula", "/Quiet", "/OpenLog", $ProcmonPml, "/SaveAs", $ProcmonCsv) -Wait -WindowStyle Hidden | Out-Null
+    if (Test-Path $ProcmonCsv) {
+      Write-Log "Procmon CSV: $ProcmonCsv"
+    } else {
+      Write-Log "[WARN] Procmon CSV conversion did not create expected file. Open the PML in Procmon GUI."
+    }
+  } else {
+    Write-Log "[WARN] Procmon PML was not created."
+  }
+}
+
 Write-Log "Starting outbound HTTP/HTTPS monitor"
 Write-Log "Output directory: $OutDir"
 Write-Log "Readable log: $ReadableLog"
@@ -209,6 +256,7 @@ Write-Log "Security audit CSV: $AuditCsv"
 
 Enable-Auditing
 Enable-FirewallLogging
+Start-ProcmonCapture
 
 $seenLive = @{}
 $seenAudit = @{}
@@ -329,6 +377,8 @@ catch {
   Write-Log "[ERROR] At: $($_.InvocationInfo.PositionMessage)"
 }
 finally {
+  Stop-ProcmonCapture
+
   if ($DisableAuditOnExit) {
     Disable-Auditing
   }
@@ -337,5 +387,9 @@ finally {
   Write-Log "Readable log: $ReadableLog"
   Write-Log "Live CSV: $LiveCsv"
   Write-Log "Security audit CSV: $AuditCsv"
+  if ($EnableProcmon) {
+    Write-Log "Procmon PML: $ProcmonPml"
+    Write-Log "Procmon CSV: $ProcmonCsv"
+  }
   Write-Log "Firewall log: C:\Windows\System32\LogFiles\Firewall\pfirewall.log"
 }

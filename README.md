@@ -64,6 +64,37 @@ Run for 10 minutes as a quick test:
 powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationMinutes 10
 ```
 
+## Optional: Procmon deep capture
+
+Procmon is Microsoft Sysinternals Process Monitor. It can capture deeper process/network activity and preserve stack details in `.pml` format. This is useful when Windows only reports traffic as `PID=4 / System`.
+
+Download Procmon from Microsoft Sysinternals and place it here:
+
+```text
+C:\Tools\Procmon64.exe
+```
+
+Run with Procmon capture enabled:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationMinutes 10 -EnableProcmon
+```
+
+If Procmon is somewhere else:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationMinutes 10 -EnableProcmon -ProcmonPath "D:\Tools\Procmon64.exe"
+```
+
+Procmon outputs:
+
+```text
+outbound-web-procmon-YYYYMMDD-HHMMSS.pml
+outbound-web-procmon-YYYYMMDD-HHMMSS.csv
+```
+
+For PID 4/System cases, open the `.pml` in Procmon GUI and inspect the event Stack. Driver names such as `csagent.sys`, backup drivers, VPN drivers, or AV filter drivers are the key clue.
+
 By default, the script writes logs to files only and does not print every event to the console.
 
 If you want console output too:
@@ -100,6 +131,8 @@ The script writes timestamped files:
 outbound-web-YYYYMMDD-HHMMSS.log
 outbound-web-live-YYYYMMDD-HHMMSS.csv
 outbound-web-security-audit-YYYYMMDD-HHMMSS.csv
+outbound-web-procmon-YYYYMMDD-HHMMSS.pml, only when `-EnableProcmon` is used
+outbound-web-procmon-YYYYMMDD-HHMMSS.csv, only when `-EnableProcmon` is used
 ```
 
 Windows Firewall text log is also enabled here:
