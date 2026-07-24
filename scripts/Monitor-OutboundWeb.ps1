@@ -17,7 +17,7 @@ param(
   [int]$IntervalSeconds = 1,
   [string]$OutDir = "C:\Temp\OutboundWebAudit",
   [switch]$DisableAuditOnExit,
-  [switch]$Quiet
+  [switch]$Console
 )
 
 $ErrorActionPreference = "Continue"
@@ -32,10 +32,9 @@ $AuditCsv = Join-Path $OutDir "outbound-web-security-audit-$Stamp.csv"
 function Write-Log {
   param([string]$Message)
   $line = "$(Get-Date -Format 'yyyy-MM-dd HH:mm:ss') $Message"
-  if ($Quiet) {
-    Add-Content -Path $ReadableLog -Value $line
-  } else {
-    $line | Tee-Object -FilePath $ReadableLog -Append
+  Add-Content -Path $ReadableLog -Value $line
+  if ($Console) {
+    Write-Host $line
   }
 }
 
@@ -277,11 +276,13 @@ try {
         Id = 5156,5157
         StartTime = $lastAuditCheck
       } -ErrorAction Stop
-    } catch [Microsoft.PowerShell.Commands.NoMatchingEventsFoundException] {
-      $events = @()
     } catch {
-      Write-Log "[WARN] Get-WinEvent failed: $($_.Exception.Message)"
-      $events = @()
+      if ($_.FullyQualifiedErrorId -like "NoMatchingEventsFound*") {
+        $events = @()
+      } else {
+        Write-Log "[WARN] Get-WinEvent failed: $($_.Exception.Message)"
+        $events = @()
+      }
     }
 
     foreach ($event in $events) {

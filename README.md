@@ -64,10 +64,12 @@ Run for 10 minutes as a quick test:
 powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationMinutes 10
 ```
 
-Run quietly, writing logs to files only:
+By default, the script writes logs to files only and does not print every event to the console.
+
+If you want console output too:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationHours 24 -Quiet
+powershell -ExecutionPolicy Bypass -File C:\Temp\OutboundWebAudit\Monitor-OutboundWeb.ps1 -DurationHours 24 -Console
 ```
 
 Run and disable audit automatically when the script exits:
