@@ -1,0 +1,15 @@
+Hi team,
+
+Quick interim summary from the outbound HTTP/HTTPS log review for devfm11-per (192.168.254.95) on 27 Jul 2026:
+
+- Reviewed 561 firewall/security log hits across 113 unique destination IPs.
+- No clear malicious outbound destination was identified in this sample.
+- The AWS destinations initially seen under System / PID 4 are very likely CrowdStrike Falcon cloud traffic. This was confirmed by destination/TLS certificate checks showing CrowdStrike endpoints.
+- The previously discussed 92.223.78.30 destination did not appear again in this log sample.
+- Most other blocked HTTPS traffic is Microsoft Windows / Edge / Windows Update / telemetry related.
+- FileMaker Server related traffic was also observed to AWS/CloudFront-looking endpoints.
+- One item remains on the watch list: 169.254.169.254:80. This is a link-local metadata-service address, not a public Internet destination; we will keep monitoring if it repeats.
+
+Current assessment: no confirmed suspicious outbound activity from this sample. Recommended action is to continue monitoring and review again if non-Microsoft / non-CrowdStrike / non-FileMaker destinations reappear.
+
+IP list is attached separately in the format: IP - No. of request/log hits - provider/comment.

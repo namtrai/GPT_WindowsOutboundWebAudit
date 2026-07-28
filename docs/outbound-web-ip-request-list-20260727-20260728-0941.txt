@@ -1,0 +1,118 @@
+Outbound HTTP/HTTPS destination IP list - devfm11-per / 192.168.254.95
+Date reviewed: 2026-07-27 logs
+Format: IP - No. of request/log hits - comment
+Note: Count is based on Windows firewall/security log hits, not guaranteed exact application request count.
+
+52.35.162.27 - 52 - Amazon Web Services - CrowdStrike Falcon endpoint
+169.254.169.254 - 36 - Link-local address / local network scope
+48.211.4.16 - 34 - Microsoft Windows Update endpoint
+35.162.224.228 - 26 - Amazon Web Services - CrowdStrike Falcon endpoint
+40.84.97.4 - 24 - Microsoft Windows service endpoint
+57.155.104.224 - 22 - Microsoft Windows Update endpoint
+20.42.179.204 - 21 - Microsoft Windows service endpoint
+85.210.196.11 - 18 - Microsoft Windows service endpoint
+20.42.179.192 - 17 - Microsoft Windows service endpoint
+172.215.188.225 - 15 - Microsoft Windows service endpoint
+172.215.188.232 - 15 - Microsoft Windows Update endpoint
+57.155.101.212 - 15 - Microsoft Windows service endpoint
+40.84.85.40 - 14 - Microsoft Windows service endpoint
+4.247.188.233 - 12 - Microsoft Windows service endpoint
+4.247.188.224 - 10 - Microsoft Windows service endpoint
+57.154.63.210 - 9 - Microsoft Windows service endpoint
+85.210.193.152 - 9 - Microsoft Windows service endpoint
+13.35.147.18 - 8 - Amazon CloudFront / AWS - FileMaker-related endpoint
+13.35.147.36 - 8 - Amazon CloudFront / AWS - FileMaker-related endpoint
+13.35.147.67 - 8 - Amazon CloudFront / AWS - FileMaker-related endpoint
+13.35.147.90 - 8 - Amazon CloudFront / AWS - FileMaker-related endpoint
+150.171.22.17 - 8 - Microsoft / Edge Update endpoint
+20.165.94.63 - 8 - Microsoft Windows Update endpoint
+74.178.240.61 - 8 - Microsoft Windows Update endpoint
+74.179.71.159 - 8 - Microsoft / Edge Update endpoint
+fe80::652d:7603:3726:a891 - 8 - Link-local address / local network scope
+135.233.95.80 - 4 - Microsoft / Edge Update endpoint
+20.190.167.148 - 4 - Microsoft Windows service endpoint
+20.190.167.20 - 4 - Microsoft Windows service endpoint
+20.190.167.64 - 4 - Microsoft Windows service endpoint
+34.209.165.130 - 4 - Amazon Web Services - CrowdStrike Falcon endpoint
+4.207.44.67 - 4 - Microsoft Windows service endpoint
+52.123.225.222 - 4 - Microsoft / Edge Update endpoint
+20.190.167.149 - 3 - Microsoft Windows service endpoint
+20.190.167.66 - 3 - Unknown provider from provided log context
+20.42.73.26 - 3 - Microsoft Windows service endpoint
+4.150.223.105 - 3 - Microsoft Windows service endpoint
+52.182.141.63 - 3 - Microsoft Windows service endpoint
+127.0.0.1 - 2 - Localhost / local server traffic
+20.184.175.18 - 2 - Microsoft Windows service endpoint
+20.190.142.166 - 2 - Microsoft Windows service endpoint
+20.190.167.150 - 2 - Unknown provider from provided log context
+20.42.65.85 - 2 - Microsoft Windows service endpoint
+20.42.73.25 - 2 - Microsoft Windows service endpoint
+20.42.73.28 - 2 - Microsoft Windows service endpoint
+4.150.223.102 - 2 - Microsoft Windows service endpoint
+4.150.223.104 - 2 - Microsoft Windows service endpoint
+4.150.223.108 - 2 - Microsoft Windows service endpoint
+40.126.14.160 - 2 - Microsoft Windows service endpoint
+40.126.14.161 - 2 - Microsoft Windows service endpoint
+40.126.14.163 - 2 - Microsoft Windows service endpoint
+52.123.253.12 - 2 - Microsoft / Edge Update endpoint
+52.123.253.31 - 2 - Unknown provider from provided log context
+52.123.253.44 - 2 - Unknown provider from provided log context
+52.123.253.56 - 2 - Unknown provider from provided log context
+52.123.255.204 - 2 - Microsoft / Edge Update endpoint
+52.123.255.206 - 2 - Microsoft / Edge Update endpoint
+52.168.112.66 - 2 - Microsoft Windows service endpoint
+52.168.117.171 - 2 - Microsoft Windows service endpoint
+52.168.117.174 - 2 - Microsoft Windows service endpoint
+104.46.162.230 - 1 - Microsoft Windows service endpoint
+13.69.116.105 - 1 - Microsoft Windows service endpoint
+13.69.239.69 - 1 - Microsoft Windows service endpoint
+13.70.178.62 - 1 - Microsoft SmartScreen endpoint
+13.89.179.12 - 1 - Microsoft Windows service endpoint
+20.184.175.14 - 1 - Microsoft Windows service endpoint
+20.184.175.15 - 1 - Microsoft Windows service endpoint
+20.184.175.2 - 1 - Microsoft Windows service endpoint
+20.184.175.21 - 1 - Microsoft Windows service endpoint
+20.190.122.23 - 1 - Microsoft SmartScreen endpoint
+20.190.142.164 - 1 - Microsoft Windows service endpoint
+20.190.142.167 - 1 - Microsoft Windows service endpoint
+20.190.167.18 - 1 - Unknown provider from provided log context
+20.190.167.19 - 1 - Unknown provider from provided log context
+20.190.167.21 - 1 - Microsoft Windows service endpoint
+20.190.167.65 - 1 - Microsoft Windows service endpoint
+20.42.65.84 - 1 - Microsoft Windows service endpoint
+20.42.65.88 - 1 - Microsoft Windows service endpoint
+20.42.65.89 - 1 - Microsoft Windows service endpoint
+20.42.65.91 - 1 - Microsoft Windows service endpoint
+20.42.65.93 - 1 - Microsoft Windows service endpoint
+20.42.65.94 - 1 - Microsoft Windows service endpoint
+20.42.72.131 - 1 - Microsoft Windows service endpoint
+20.42.73.24 - 1 - Microsoft Windows service endpoint
+20.42.73.27 - 1 - Microsoft Windows service endpoint
+20.50.201.203 - 1 - Microsoft Windows service endpoint
+35.160.213.193 - 1 - Amazon Web Services - CrowdStrike Falcon endpoint
+35.80.210.147 - 1 - Amazon Web Services - CrowdStrike Falcon endpoint
+4.150.223.100 - 1 - Microsoft Windows service endpoint
+4.150.223.101 - 1 - Microsoft Windows service endpoint
+4.150.223.106 - 1 - Microsoft Windows service endpoint
+4.150.223.107 - 1 - Microsoft Windows service endpoint
+4.150.223.109 - 1 - Microsoft Windows service endpoint
+4.150.223.110 - 1 - Microsoft Windows service endpoint
+4.150.223.111 - 1 - Microsoft Windows service endpoint
+4.150.223.97 - 1 - Microsoft Windows service endpoint
+4.150.223.98 - 1 - Microsoft Windows service endpoint
+4.150.223.99 - 1 - Microsoft Windows service endpoint
+4.207.44.73 - 1 - Microsoft Windows service endpoint
+40.115.75.193 - 1 - Microsoft SmartScreen endpoint
+40.126.14.162 - 1 - Microsoft Windows service endpoint
+40.126.14.164 - 1 - Microsoft Windows service endpoint
+40.79.141.152 - 1 - Microsoft Windows service endpoint
+40.79.150.121 - 1 - Microsoft Windows service endpoint
+40.79.150.122 - 1 - Microsoft Windows service endpoint
+40.79.163.155 - 1 - Microsoft Windows service endpoint
+40.79.167.10 - 1 - Microsoft Windows service endpoint
+51.11.192.50 - 1 - Microsoft Windows service endpoint
+51.116.246.105 - 1 - Microsoft Windows service endpoint
+52.138.229.67 - 1 - Microsoft Windows service endpoint
+52.168.117.168 - 1 - Microsoft Windows service endpoint
+52.178.17.232 - 1 - Microsoft Windows service endpoint
+52.182.143.212 - 1 - Microsoft Windows service endpoint
