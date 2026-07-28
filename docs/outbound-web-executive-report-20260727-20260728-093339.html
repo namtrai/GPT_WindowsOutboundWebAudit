@@ -1,0 +1,192 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Outbound Web Traffic Report - devfm11-per - 2026-07-27</title>
+<style>
+body { font-family: Arial, sans-serif; margin: 32px; color: #1f2937; line-height: 1.45; }
+h1 { color: #111827; margin-bottom: 4px; }
+h2 { color: #1f2937; border-bottom: 1px solid #e5e7eb; padding-bottom: 6px; margin-top: 28px; }
+.meta { color: #6b7280; margin-top: 0; }
+.card { background:#f9fafb; border:1px solid #e5e7eb; border-radius:10px; padding:16px; margin:14px 0; }
+.ok { color:#047857; font-weight:700; }
+.monitor { color:#b45309; font-weight:700; }
+.summary-grid { display:grid; grid-template-columns: repeat(4, minmax(130px, 1fr)); gap:12px; }
+.metric { background:white; border:1px solid #e5e7eb; border-radius:8px; padding:12px; }
+.metric .n { font-size:24px; font-weight:700; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; }
+th, td { border: 1px solid #e5e7eb; padding: 7px 8px; vertical-align: top; }
+th { background: #f3f4f6; text-align: left; }
+tr:nth-child(even) td { background:#fcfcfd; }
+.badge { display:inline-block; padding:2px 7px; border-radius:999px; font-size:12px; font-weight:700; }
+.badge.safe { background:#dcfce7; color:#166534; }
+.badge.local { background:#e0f2fe; color:#075985; }
+.badge.monitor { background:#fef3c7; color:#92400e; }
+.small { font-size:12px; color:#6b7280; }
+</style>
+</head>
+<body>
+<h1>Outbound Web Traffic Report</h1>
+<p class="meta">Server: <strong>devfm11-per</strong> / Source IP: <strong>192.168.254.95</strong><br>
+Traffic date: <strong>2026-07-27</strong> | Report generated: <strong>2026-07-28</strong></p>
+
+<div class="card">
+<h2 style="margin-top:0">Executive Summary</h2>
+<ul>
+<li><strong>No clear malicious outbound HTTP/HTTPS destination was identified</strong> in the provided log sample.</li>
+<li>The AWS destinations that initially looked unusual and were logged under <strong>System / PID 4</strong> are assessed as <strong>CrowdStrike Falcon security agent cloud traffic</strong>.</li>
+<li>The previously discussed destination <strong>92.223.78.30</strong> did <strong>not</strong> appear in this log sample.</li>
+<li>Most blocked HTTPS events are attributable to normal <strong>Microsoft Windows / Edge / update / telemetry</strong> services.</li>
+<li><strong>169.254.169.254:80</strong> should remain on the watch list. It is not a public Internet destination, but should be reviewed if it continues to appear.</li>
+</ul>
+</div>
+
+<h2>High-Level Counts</h2>
+<div class="summary-grid">
+<div class="metric"><div class="n">561</div><div>Log hits reviewed</div></div>
+<div class="metric"><div class="n">113</div><div>Unique destination IP/port pairs</div></div>
+<div class="metric"><div class="n">8</div><div>Destinations with allowed events</div></div>
+<div class="metric"><div class="n">105</div><div>Destinations with blocked events</div></div>
+</div>
+<p class="small">“Log hits” means firewall/security log entries. It should be treated as event count, not exact end-user web request count.</p>
+
+<h2>Grouped Assessment</h2>
+<table>
+<tr><th>Group</th><th>Unique destination IP/port pairs</th><th>Assessment</th></tr>
+<tr><td>Microsoft / Windows services</td><td>101</td><td>Expected / low risk</td></tr>
+<tr><td>CrowdStrike Falcon</td><td>5</td><td>Expected / low risk</td></tr>
+<tr><td>FileMaker Server</td><td>4</td><td>Expected / low risk</td></tr>
+<tr><td>Local/Internal</td><td>2</td><td>Expected / low risk</td></tr>
+<tr><td>Monitor</td><td>1</td><td>Monitor only</td></tr>
+</table>
+
+<h2>Destinations Requiring Attention</h2>
+<table>
+<tr><th>Destination</th><th>Log hits</th><th>Process</th><th>Status</th><th>Comment</th></tr>
+<tr><td><strong>169.254.169.254:80</strong></td><td>36</td><td>System / Kernel/System - original app may not be exposed by Windows (36)</td><td><span class="badge monitor">Monitor</span></td><td>Internal metadata-service address; keep under observation unless confirmed expected by security tooling</td></tr>
+</table>
+
+<h2>Full Destination Detail</h2>
+<table>
+<tr><th>Destination IP</th><th>Port</th><th>Log hits</th><th>Allow/Block</th><th>Process / service</th><th>Assessment</th><th>Comment</th></tr>
+<tr><td>52.35.162.27</td><td>443</td><td>52</td><td>Allowed: 52</td><td>System / Kernel/System - original app may not be exposed by Windows (52)</td><td><span class="badge safe">Safe / Expected</span></td><td>CrowdStrike Falcon security agent cloud traffic</td></tr>
+<tr><td>169.254.169.254</td><td>80</td><td>36</td><td>Allowed: 36</td><td>System / Kernel/System - original app may not be exposed by Windows (36)</td><td><span class="badge monitor">Monitor</span></td><td>Internal metadata-service address; keep under observation unless confirmed expected by security tooling</td></tr>
+<tr><td>48.211.4.16</td><td>443</td><td>34</td><td>Blocked: 34</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (27); MoUsoCoreWorker.exe (5); taskhostw.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>35.162.224.228</td><td>443</td><td>26</td><td>Allowed: 26</td><td>System / Kernel/System - original app may not be exposed by Windows (26)</td><td><span class="badge safe">Safe / Expected</span></td><td>CrowdStrike Falcon security agent cloud traffic</td></tr>
+<tr><td>40.84.97.4</td><td>443</td><td>24</td><td>Blocked: 24</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (24)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>57.155.104.224</td><td>443</td><td>22</td><td>Blocked: 22</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (15); MoUsoCoreWorker.exe (5); taskhostw.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.179.204</td><td>443</td><td>21</td><td>Blocked: 21</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (21)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>85.210.196.11</td><td>443</td><td>18</td><td>Blocked: 18</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (18)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.179.192</td><td>443</td><td>17</td><td>Blocked: 17</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (15); taskhostw.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>172.215.188.225</td><td>443</td><td>15</td><td>Blocked: 15</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (15)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>172.215.188.232</td><td>443</td><td>15</td><td>Blocked: 15</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (6); MoUsoCoreWorker.exe (5); taskhostw.exe (4)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>57.155.101.212</td><td>443</td><td>15</td><td>Blocked: 15</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (15)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.84.85.40</td><td>443</td><td>14</td><td>Blocked: 14</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (12); taskhostw.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.247.188.233</td><td>443</td><td>12</td><td>Blocked: 12</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (9); taskhostw.exe (2); rundll32.exe (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.247.188.224</td><td>443</td><td>10</td><td>Blocked: 10</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (9); DeviceCensus.exe (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>57.154.63.210</td><td>443</td><td>9</td><td>Blocked: 9</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (9)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>85.210.193.152</td><td>443</td><td>9</td><td>Blocked: 9</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (9)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>13.35.147.18</td><td>443</td><td>8</td><td>Blocked: 8</td><td>fmshelper.exe / FileMaker Server[FileMaker Server] (8)</td><td><span class="badge safe">Safe / Expected</span></td><td>FileMaker Server related traffic</td></tr>
+<tr><td>13.35.147.36</td><td>443</td><td>8</td><td>Blocked: 8</td><td>fmshelper.exe / FileMaker Server[FileMaker Server] (8)</td><td><span class="badge safe">Safe / Expected</span></td><td>FileMaker Server related traffic</td></tr>
+<tr><td>13.35.147.67</td><td>443</td><td>8</td><td>Blocked: 8</td><td>fmshelper.exe / FileMaker Server[FileMaker Server] (8)</td><td><span class="badge safe">Safe / Expected</span></td><td>FileMaker Server related traffic</td></tr>
+<tr><td>13.35.147.90</td><td>443</td><td>8</td><td>Blocked: 8</td><td>fmshelper.exe / FileMaker Server[FileMaker Server] (8)</td><td><span class="badge safe">Safe / Expected</span></td><td>FileMaker Server related traffic</td></tr>
+<tr><td>150.171.22.17</td><td>443</td><td>8</td><td>Blocked: 8</td><td>MicrosoftEdgeUpdate.exe (4); microsoftedgeupdate.exe (4)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.165.94.63</td><td>443</td><td>8</td><td>Blocked: 8</td><td>svchost.exe / wuauserv[Windows Update] (8)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>74.178.240.61</td><td>443</td><td>8</td><td>Blocked: 8</td><td>svchost.exe / wuauserv[Windows Update] (8)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>74.179.71.159</td><td>443</td><td>8</td><td>Blocked: 8</td><td>MicrosoftEdgeUpdate.exe / edgeupdate[Microsoft Edge Update Service (edgeupdate)] (4); microsoftedgeupdate.exe (4)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>fe80::652d:7603:3726:a891</td><td>443</td><td>8</td><td>Allowed: 8</td><td>System / Kernel/System - original app may not be exposed by Windows (4); fmshelper.exe / FileMaker Server[FileMaker Server] (4)</td><td><span class="badge local">Safe / Local</span></td><td>Local/internal server communication</td></tr>
+<tr><td>135.233.95.80</td><td>443</td><td>4</td><td>Blocked: 4</td><td>MicrosoftEdgeUpdate.exe / edgeupdate[Microsoft Edge Update Service (edgeupdate)] (3); microsoftedgeupdate.exe (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.148</td><td>443</td><td>4</td><td>Blocked: 4</td><td>svchost.exe (3); svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.20</td><td>443</td><td>4</td><td>Blocked: 4</td><td>svchost.exe (3); svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.64</td><td>443</td><td>4</td><td>Blocked: 4</td><td>svchost.exe (3); svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>34.209.165.130</td><td>443</td><td>4</td><td>Allowed: 4</td><td>System / Kernel/System - original app may not be exposed by Windows (4)</td><td><span class="badge safe">Safe / Expected</span></td><td>CrowdStrike Falcon security agent cloud traffic</td></tr>
+<tr><td>4.207.44.67</td><td>443</td><td>4</td><td>Blocked: 4</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (4)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.123.225.222</td><td>443</td><td>4</td><td>Blocked: 4</td><td>MicrosoftEdgeUpdate.exe (2); microsoftedgeupdate.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.149</td><td>443</td><td>3</td><td>Blocked: 3</td><td>svchost.exe (2); svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.66</td><td>443</td><td>3</td><td>Blocked: 3</td><td>svchost.exe (3)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.73.26</td><td>443</td><td>3</td><td>Blocked: 3</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (3)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.105</td><td>443</td><td>3</td><td>Blocked: 3</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (3)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.182.141.63</td><td>443</td><td>3</td><td>Blocked: 3</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (3)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>127.0.0.1</td><td>443</td><td>2</td><td>Allowed: 2</td><td>System / Kernel/System - original app may not be exposed by Windows (1); fmscwpc.exe (1)</td><td><span class="badge local">Safe / Local</span></td><td>Local/internal server communication</td></tr>
+<tr><td>20.184.175.18</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.142.166</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.150</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.65.85</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.73.25</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.73.28</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.102</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.104</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.108</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.126.14.160</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.126.14.161</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.126.14.163</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.123.253.12</td><td>443</td><td>2</td><td>Blocked: 2</td><td>MicrosoftEdgeUpdate.exe (1); microsoftedgeupdate.exe (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.123.253.31</td><td>443</td><td>2</td><td>Blocked: 2</td><td>microsoftedgeupdate.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.123.253.44</td><td>443</td><td>2</td><td>Blocked: 2</td><td>microsoftedgeupdate.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.123.253.56</td><td>443</td><td>2</td><td>Blocked: 2</td><td>microsoftedgeupdate.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.123.255.204</td><td>443</td><td>2</td><td>Blocked: 2</td><td>MicrosoftEdgeUpdate.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.123.255.206</td><td>443</td><td>2</td><td>Blocked: 2</td><td>MicrosoftEdgeUpdate.exe (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.168.112.66</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.168.117.171</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.168.117.174</td><td>443</td><td>2</td><td>Blocked: 2</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (2)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>104.46.162.230</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>13.69.116.105</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>13.69.239.69</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>13.70.178.62</td><td>443</td><td>1</td><td>Blocked: 1</td><td>smartscreen.exe (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>13.89.179.12</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.184.175.14</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.184.175.15</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.184.175.2</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.184.175.21</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.122.23</td><td>443</td><td>1</td><td>Blocked: 1</td><td>smartscreen.exe (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.142.164</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.142.167</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.18</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.19</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.21</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.190.167.65</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.65.84</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.65.88</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.65.89</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.65.91</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.65.93</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.65.94</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.72.131</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.73.24</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.42.73.27</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>20.50.201.203</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>35.160.213.193</td><td>443</td><td>1</td><td>Allowed: 1</td><td>System / Kernel/System - original app may not be exposed by Windows (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>CrowdStrike Falcon security agent cloud traffic</td></tr>
+<tr><td>35.80.210.147</td><td>443</td><td>1</td><td>Allowed: 1</td><td>System / Kernel/System - original app may not be exposed by Windows (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>CrowdStrike Falcon security agent cloud traffic</td></tr>
+<tr><td>4.150.223.100</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.101</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.106</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.107</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.109</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.110</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.111</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.97</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.98</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.150.223.99</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>4.207.44.73</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.115.75.193</td><td>443</td><td>1</td><td>Blocked: 1</td><td>smartscreen.exe (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.126.14.162</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.126.14.164</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / wlidsvc[Microsoft Account Sign-in Assistant] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.79.141.152</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.79.150.121</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.79.150.122</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.79.163.155</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>40.79.167.10</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>51.11.192.50</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>51.116.246.105</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.138.229.67</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.168.117.168</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.178.17.232</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+<tr><td>52.182.143.212</td><td>443</td><td>1</td><td>Blocked: 1</td><td>svchost.exe / DiagTrack[Connected User Experiences and Telemetry] (1)</td><td><span class="badge safe">Safe / Expected</span></td><td>Microsoft Windows / Edge / update / telemetry service traffic</td></tr>
+</table>
+
+<h2>Conclusion</h2>
+<div class="card">
+<p>Based on the provided firewall/security logs and destination checks, the reviewed outbound HTTP/HTTPS activity is mostly expected Windows, Microsoft Edge, FileMaker Server, and CrowdStrike Falcon traffic. There is no clear indication of malicious outbound communication in this sample. Continue monitoring for any recurrence of <strong>92.223.78.30</strong> or other non-Microsoft / non-CrowdStrike destinations.</p>
+</div>
+</body>
+</html>
